@@ -20,7 +20,7 @@ const config =  {
   "forceHttps": '',
   // retention options in seconds:label
   "retentions": {
-    "one-time": "one time download",
+    "one-time": "One time download",
     "3600": "1 Hour",
     "21600": "6 Hours",
     "86400": "1 Day",
@@ -28,7 +28,8 @@ const config =  {
     "604800": "1 Week",
     "1209600": "2 Weeks",
     "2419200": "4 Weeks",
-    "4838400": "8 Weeks"
+    "4838400": "8 Weeks",
+    "9999999999999": "Never"
   },
   // admin password, set to false to disable /admin page
   "adminPass": false,
