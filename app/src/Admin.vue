@@ -22,7 +22,7 @@
       table.table.table-hover
         thead
           tr
-            th SID
+            th(width="40%") SID
             th Created
             th Downloaded
             th Expire
