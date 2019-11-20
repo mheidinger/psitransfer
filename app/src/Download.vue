@@ -10,7 +10,7 @@
     .well(v-if='needsPassword')
       h3 Password
       .form-group
-        input.form-control(type='password', v-model='password')
+        input.form-control(type='password', v-model='password' @keyup.enter='if (password.length>1) { decrypt() }' autofocus="")
       p.text-danger(v-show='passwordWrong')
         strong Access denied!
       |
