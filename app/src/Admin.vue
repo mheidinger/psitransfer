@@ -27,6 +27,7 @@
             th Downloaded
             th Expire
             th Size
+            th Delete
         template(v-for="(bucket, sid) in db")
           tbody(:class="{expanded: expand===sid}")
             tr.bucket(@click="expandView(sid)")
@@ -41,6 +42,9 @@
                 template(v-if="typeof sum[sid].firstExpire === 'number'") {{ sum[sid].firstExpire | date }}
                 template(v-else)  {{ sum[sid].firstExpire }}
               td.text-right {{ humanFileSize(sum[sid].size) }}
+              td.text-right
+                a.btn.btn-sm.btn-info(@click='onDelete(sid)')
+                  icon(name="trash")
           tbody.expanded(v-if="expand === sid")
             template(v-for="file in bucket")
               tr.file
@@ -53,6 +57,7 @@
                   template(v-if="typeof file.expireDate === 'number'") {{ file.expireDate | date }}
                   template(v-else) {{ file.expireDate }}
                 td.text-right {{ humanFileSize(file.size) }}
+                td
         tfoot
           tr
             td(colspan="3")
@@ -66,6 +71,7 @@
   import 'vue-awesome/icons/sync-alt';
   import 'vue-awesome/icons/sign-in-alt';
   import 'vue-awesome/icons/key';
+  import 'vue-awesome/icons/trash'
 
 
   export default {
@@ -88,6 +94,21 @@
       expandView(sid) {
         if(this.expand === sid) return this.expand = false;
         this.expand = sid;
+      },
+
+      onDelete(sid) {
+        if(!this.password) return;
+        const xhr = new XMLHttpRequest();
+        xhr.open('DELETE', '/admin/'+sid);
+        xhr.setRequestHeader("x-passwd", this.password);
+        xhr.onload = () => {
+          if(xhr.status === 200) {
+            this.login();
+          } else {
+            this.error = `${xhr.status} ${xhr.statusText}: ${xhr.responseText}`;
+          }
+        }
+        xhr.send();
       },
 
       login() {
