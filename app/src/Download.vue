@@ -89,7 +89,7 @@
     data () {
       return {
         files: [],
-        sid: document.location.pathname.substr(1),
+        sid: document.location.pathname.replace('/download/', ''),
         passwordWrong: false,
         needsPassword: false,
         password: '',
@@ -129,7 +129,7 @@
 
       downloadAll(format) {
         document.location.href = document.location.protocol + '//' + document.location.host
-          + '/files/' + this.sid + '++'
+          + '/download/files/' + this.sid + '++'
           + MD5(
             this.files
               .filter(f => !f.downloaded || f.metadata.retention !== 'one-time')
@@ -190,7 +190,7 @@
 
     beforeMount() {
       const xhr = new XMLHttpRequest();
-      xhr.open('GET', '/' + this.sid + '.json');
+      xhr.open('GET', '/download/' + this.sid + '.json');
       xhr.onload = () => {
         if(xhr.status === 200) {
           try {
